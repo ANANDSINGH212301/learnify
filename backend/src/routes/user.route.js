@@ -9,4 +9,7 @@ routes.use(protectRoute);
 routes("/", getRecommendedUsers);
 routes("/friends", getMyFriends);
 
+routes("/friend-request/:id", sendFriendRequest )
+routes("/friend-request/:id/accept", acceptFriendRequest )
+
 export default routes;
