@@ -15,7 +15,7 @@ export const protectRoute = async (req, res, next) => {
             return res.status(401).json({ message: "UnAuthorised - Token inCorrect or Expired" });
         }
 
-        const user = await User.findById(decoded.userId);
+        const user = await User.findById(decoded.userId).select("-password");
 
         req.user = user;
         next();

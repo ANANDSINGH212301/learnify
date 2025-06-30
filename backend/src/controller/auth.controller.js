@@ -111,7 +111,7 @@ export const onboardC = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(userId, {
             ...req.body,
             inOnboarded: true
-        }, { new: true })
+        }, { new: true }).select("-password")
 
         if (!updatedUser) return res.status(404).json({ message: "User not found" });
 

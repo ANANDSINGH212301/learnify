@@ -12,6 +12,7 @@ app.use(urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 
 app.listen(PORT || 5000, () => {
