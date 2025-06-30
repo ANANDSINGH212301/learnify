@@ -45,8 +45,8 @@ export const signupC = async (req, res) => {
             console.error("User not created:", error);
         }
 
-        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
-        res.cookie("Token", token, {
+        const Token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
+        res.cookie("Token", Token, {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             sameSite: "strict",
@@ -75,8 +75,8 @@ export const loginC = async (req, res) => {
             return res.status(400).json("Credentials are Incorrect")
         }
 
-        const token = jwt.sign({ userId: userExist._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
-        res.cookie("Token", token, {
+        const Token = jwt.sign({ userId: userExist._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
+        res.cookie("Token", Token, {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             sameSite: "strict",
@@ -93,3 +93,41 @@ export const logoutC = (req, res) => {
     res.clearCookie("Token")
     res.status(200).json({ success: true, Message: "Logout Successful" });
 };
+export const onboardC = async (req, res) => {
+    try {
+        const userId = req.user._id
+        const { fullname, bio, nativelanguage, learninglanguage, location } = req.body
+        if (!fullname || !bio || !nativelanguage || !learninglanguage || !location) {
+            return res.status(401).json({
+                message: "All field are required", missingFields: [
+                    !fullname && "fullname",
+                    !bio && "bio",
+                    !nativelanguage && "nativelanguage",
+                    !learninglanguage && "learninglanguage",
+                    !location && "location"
+                ].filter(Boolean)
+            });
+        }
+        const updatedUser = await User.findByIdAndUpdate(userId, {
+            ...req.body,
+            inOnboarded: true
+        }, { new: true })
+
+        if (!updatedUser) return res.status(404).json({ message: "User not found" });
+
+        try {
+            await upsertStreamUser({
+                id: updatedUser._id.toString(),
+                name: updatedUser.fullname,
+                image: updatedUser.profilePic || ""
+            })
+            console.log(`Stream user created: ${updatedUser.fullname}`);
+        } catch (error) {
+            console.log("Stream user not created:", error);
+        }
+        res.status(200).json({ success: true, user: updatedUser });
+    } catch (error) {
+        console.error("onBoard Error :", error);
+        return res.status(500).json({ message: "Internel Server Error" })
+    }
+}
