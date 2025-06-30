@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import "dotenv/config"
 import jwt from "jsonwebtoken"
+import { upsertStreamUser } from "../lib/stream.js";
 
 export const signupC = async (req, res) => {
     const { fullname, email, password } = req.body;
@@ -31,15 +32,18 @@ export const signupC = async (req, res) => {
             password,
             profilePic: avatar,
         })
-
-        // Save user to stream
-
-        
-   
-
-
-
         await newUser.save();
+
+        try {
+            await upsertStreamUser({
+                id: newUser._id.toString(),
+                name: newUser.fullname,
+                image: newUser.profilePic || ""
+            });
+            console.log("Stream user created:", newUser.fullname);
+        } catch (error) {
+            console.error("User not created:", error);
+        }
 
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
         res.cookie("Token", token, {
