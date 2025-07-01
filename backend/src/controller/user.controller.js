@@ -1,6 +1,6 @@
 import { json } from "express"
 import friendRequest from "../models/friendRequest.model.js"
-import User from "../models/user.model"
+import User from "../models/user.model.js"
 
 export const getRecommendedUsers = async (req, res) => {
     try {
@@ -102,4 +102,35 @@ export const acceptFriendRequest = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" })
     }
 
+}
+export const getFriendRequest = async (req, res) => {
+    try {
+        const incomingReq = await friendRequest.find({
+            recipient: req.user.id,
+            status: "pending"
+        }).populate("sender", "profilepic fullname nativelanguage learninglanguage");
+
+        const acceptedReq = await friendRequest.find({
+            sender: req.user.id,
+            status: "accepted"
+        }).populate("recipient", "profilepic fullname");
+
+        res.status(200).json({ incomingReq, acceptedReq })
+    } catch (error) {
+        console.log("Error occur while Getting friend Request", error);
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
+}
+export const getOutGoingFriendRequest = async (req, res) => {
+    try {
+        const outgoingRequest = await friendRequest.find({
+            sender: req.user.id,
+            status: "pending"
+        }).populate("recipient", "fullname profilepic nativelanguage learninglanguage");
+
+        res.status(200).json(outgoingRequest)
+    } catch (error) {
+        console.log("Error occur while OutGoing friend Request", error);
+        return res.status(500).json({ message: "Internal Server Error" })
+    }
 }
