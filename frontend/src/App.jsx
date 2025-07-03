@@ -9,7 +9,7 @@ import CallPage from "./pages/CallPage";
 import OnboardPage from "./pages/OnboardPage";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "../../backend/src/lib/axios.js";
+import { axiosInstance } from "./lib/axios.js";
 
 function App() {
   const {
@@ -19,7 +19,8 @@ function App() {
   } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/api/auth/me");
+      const res = await axiosInstance.get("/auth/me");
+      console.log(res)
       return res.data;
     },
     retry: false,
