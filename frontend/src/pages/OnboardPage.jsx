@@ -23,8 +23,9 @@ const OnboardPage = () => {
     nativelanguage: authUser?.nativelanguage || "",
     learninglanguage: authUser?.learninglanguage || "",
     location: authUser?.location || "",
-    profilepic: authUser?.profilpic || "",
+    profilepic: authUser?.profilepic,
   });
+  console.log(formState);
   const { mutate: onboardingMutation, isPending } = useMutation({
     mutationFn: completeOnBoardingapi,
     onSuccess: () => {
@@ -36,6 +37,7 @@ const OnboardPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onboardingMutation(formState);
+    console.log(formState.profilepic);
   };
   const handleRandomAvatar = () => {
     const index = Math.floor(Math.random() * 100) + 1;

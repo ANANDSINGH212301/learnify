@@ -30,7 +30,7 @@ export const signupC = async (req, res) => {
             fullname,
             email,
             password,
-            profilePic: avatar,
+            profilepic: avatar
         })
         await newUser.save();
 
@@ -38,7 +38,7 @@ export const signupC = async (req, res) => {
             await upsertStreamUser({
                 id: newUser._id.toString(),
                 name: newUser.fullname,
-                image: newUser.profilePic || ""
+                image: newUser.profilepic || ""
             });
             console.log("Stream user created:", newUser.fullname);
         } catch (error) {
@@ -96,7 +96,7 @@ export const logoutC = (req, res) => {
 export const onboardC = async (req, res) => {
     try {
         const userId = req.user._id
-        const { fullname, bio, nativelanguage, learninglanguage, location } = req.body
+        const { fullname, bio, nativelanguage, learninglanguage, location, profilepic } = req.body
         if (!fullname || !bio || !nativelanguage || !learninglanguage || !location) {
             return res.status(401).json({
                 message: "All field are required", missingFields: [
@@ -110,7 +110,8 @@ export const onboardC = async (req, res) => {
         }
         const updatedUser = await User.findByIdAndUpdate(userId, {
             ...req.body,
-            inOnboarded: true
+            isOnboarded: true,
+            profilepic
         }, { new: true }).select("-password")
 
         if (!updatedUser) return res.status(404).json({ message: "User not found" });
@@ -119,9 +120,12 @@ export const onboardC = async (req, res) => {
             await upsertStreamUser({
                 id: updatedUser._id.toString(),
                 name: updatedUser.fullname,
-                image: updatedUser.profilePic || ""
+                image: updatedUser.profilepic || ""
             })
+            console.log(profilepic)
+            updatedUser.profilepic = profilepic;
             console.log(`Stream user created: ${updatedUser.fullname}`);
+
         } catch (error) {
             console.log("Stream user not created:", error);
         }

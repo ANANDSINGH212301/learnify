@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    profilepic: {
+    profilepic: {  
         type: String,
         default: ""
     },
@@ -37,7 +37,8 @@ const userSchema = new mongoose.Schema({
         default: ""
     },
     isOnboarded: {
-        Type: Boolean
+        type: Boolean,
+        default: false
     },
     friends: [
         {
