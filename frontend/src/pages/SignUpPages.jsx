@@ -5,6 +5,7 @@ import "daisyui";
 import { ShipWheelIcon } from "lucide-react";
 import video from "./Video call-bro.svg";
 import { signupapi } from "../lib/api.js";
+import toast from "react-hot-toast";
 
 const SignUpPages = () => {
   const [signupData, setSignupData] = useState({
@@ -18,11 +19,13 @@ const SignUpPages = () => {
   const {
     mutate: signupMutation,
     isPending,
-    error,
   } = useMutation({
     mutationFn: signupapi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      toast.error(error.response.data);
     },
   });
 
@@ -46,11 +49,6 @@ const SignUpPages = () => {
                 Learnify{" "}
               </span>
             </div>
-            {error && (
-              <div className="alert alert-error mb-4">
-                <span>{error.response.data}</span>
-              </div>
-            )}
             <div className="w-full">
               <form onSubmit={handleSignup}>
                 <div className="space-y-4">
@@ -76,7 +74,6 @@ const SignUpPages = () => {
                             fullname: e.target.value,
                           })
                         }
-                        required
                       />
                     </div>
                   </div>
@@ -97,7 +94,6 @@ const SignUpPages = () => {
                               email: e.target.value,
                             })
                           }
-                          required
                         />
                       </div>
                     </div>
@@ -119,7 +115,6 @@ const SignUpPages = () => {
                               password: e.target.value,
                             })
                           }
-                          required
                         />
                       </div>
                     </div>
@@ -128,6 +123,7 @@ const SignUpPages = () => {
                         <input
                           type="checkbox"
                           className="checkbox checkbox-sm "
+                          required
                         />
                         <span>
                           I agree to the {""}

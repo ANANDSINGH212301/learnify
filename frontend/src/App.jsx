@@ -33,11 +33,11 @@ function App() {
           ></Route>
           <Route
             path="/signup"
-            element={!isAuthenticated ? <SignUpPages /> : <Navigate to="/" />}
+            element={!isAuthenticated ? <SignUpPages /> : (isOnboarded ? <Navigate to="/"/>: <Navigate to="/onboard" />)}
           ></Route>
           <Route
             path="/login"
-            element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" />}
+            element={!isAuthenticated ? <LoginPage /> : (isOnboarded ? <Navigate to="/"/>: <Navigate to="/onboard" />)}
           ></Route>
           <Route
             path="/notification"
@@ -56,7 +56,7 @@ function App() {
           <Route
             path="/onboard"
             element={
-              isAuthenticated ? <OnboardPage /> : <Navigate to="/login" />
+              isAuthenticated ? (isOnboarded ? <Navigate to={"/"}/> : <OnboardPage />) : <Navigate to="/login" />
             }
           ></Route>
         </Routes>

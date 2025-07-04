@@ -9,6 +9,9 @@ export const signupC = async (req, res) => {
         if (!fullname || !password || !email) {
             return res.status(400).json("All Fields Are Required");
         }
+        if (fullname.length < 3) {
+            return res.status(400).json("Fullname Should Be More Then 3 characters");
+        }
         if (password.length < 6) {
             return res.status(400).json("Password Should Be More Then 6 characters");
         }
@@ -111,9 +114,9 @@ export const onboardC = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(userId, {
             ...req.body,
             isOnboarded: true,
-            profilepic
         }, { new: true }).select("-password")
-
+        await updatedUser.save()
+        
         if (!updatedUser) return res.status(404).json({ message: "User not found" });
 
         try {
@@ -122,8 +125,6 @@ export const onboardC = async (req, res) => {
                 name: updatedUser.fullname,
                 image: updatedUser.profilepic || ""
             })
-            console.log(profilepic)
-            updatedUser.profilepic = profilepic;
             console.log(`Stream user created: ${updatedUser.fullname}`);
 
         } catch (error) {

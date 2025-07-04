@@ -23,14 +23,17 @@ const OnboardPage = () => {
     nativelanguage: authUser?.nativelanguage || "",
     learninglanguage: authUser?.learninglanguage || "",
     location: authUser?.location || "",
-    profilepic: authUser?.profilepic,
+    profilepic: authUser?.profilepic || "",
   });
   console.log(formState);
-  const { mutate: onboardingMutation, isPending } = useMutation({
+  const { mutate: onboardingMutation, isPending,} = useMutation({
     mutationFn: completeOnBoardingapi,
     onSuccess: () => {
       toast.success("Profile Updated Sucessfully");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
     },
   });
 
@@ -116,8 +119,7 @@ const OnboardPage = () => {
                         ...formState,
                         bio: e.target.value,
                       })
-                    }
-                    required
+                    } 
                   ></textarea>
                 </div>
               </div>
@@ -137,7 +139,6 @@ const OnboardPage = () => {
                       })
                     }
                     className="select select-bordered w-full border-none mt-3"
-                    required
                   >
                     <option value="">Select your native language</option>
                     {LANGUAGES.map((language) => (
@@ -164,7 +165,6 @@ const OnboardPage = () => {
                       })
                     }
                     className="select select-bordered w-full border-none mt-3"
-                    required
                   >
                     <option value="">Select your learning language</option>
                     {LANGUAGES.map((language) => (
@@ -197,7 +197,6 @@ const OnboardPage = () => {
                       location: e.target.value,
                     })
                   }
-                  required
                 />
               </div>
               <button
@@ -212,7 +211,7 @@ const OnboardPage = () => {
                   </>
                 ) : (
                   <>
-                    <Loader2Icon className="size-5 mr-2" />
+                    <Loader2Icon className="size-5 mr-2 loading loading-spinner" />
                     Onboarding ......
                   </>
                 )}
