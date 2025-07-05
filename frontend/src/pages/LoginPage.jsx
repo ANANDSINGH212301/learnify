@@ -5,6 +5,7 @@ import { loginapi } from "../lib/api.js";
 import video from "./Video call-bro.svg";
 import { Link } from "react-router";
 import toast from "react-hot-toast";
+import themes from "daisyui/theme/object.js";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -31,14 +32,14 @@ const LoginPage = () => {
     <>
       <div
         className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-        data-theme="forest"
+        data-theme={themes}
       >
         <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
           {/* left side */}
           <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
             <div className="mb-4 flex items-center justify-start gap-2 ">
               <ShipWheelIcon className="size-9 text-primary" />
-              <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-white tracking-wider">
+              <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
                 {" "}
                 Learnify{" "}
               </span>
@@ -121,7 +122,7 @@ const LoginPage = () => {
               </form>
             </div>
           </div>
-          <div className="hidden lg:flex w-full lg:w-1/2 bg-primary-10 items-center justify-center bg-[#5654e88e]">
+          <div className="hidden lg:flex w-full lg:w-1/2 bg-primary-10 items-center justify-center bg-[#25d563bd]">
             <div className="max-w-md p-8">
               <div className="relative aspect-square max-w-sm mx-auto">
                 <img src={video} alt="" className="w-full h-full" />

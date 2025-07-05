@@ -28,3 +28,25 @@ export const completeOnBoardingapi = async (onboardData) => {
     const res = await axiosInstance.post("/auth/onboard", onboardData);
     return res.data;
 };
+export const getrecommendedUsersapi = async () => {
+    const res = await axiosInstance.get("/user");
+    return res.data;
+};
+export const getFriendsapi = async () => {
+    const res = await axiosInstance.get("/user/friends");
+    return res.data;
+};
+export const getOutGoingFriendRequestapi = async () => {
+    const res = await axiosInstance.get("/user/outgoing-friend-request");
+    return res.data;
+};
+
+export const getIncommingFriendRequestapi = async () => {
+    const res = await axiosInstance.get("/user/");
+    return res.data;
+};
+
+export const sendFriendRequestapi = async (userId)=> {
+    const res = await axiosInstance.post(`./user/friend-request/${userId}`)
+    res.data;
+}

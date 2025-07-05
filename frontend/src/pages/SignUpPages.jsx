@@ -44,7 +44,7 @@ const SignUpPages = () => {
           <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
             <div className="mb-4 flex items-center justify-start gap-2 ">
               <ShipWheelIcon className="size-9 text-primary" />
-              <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-white tracking-wider">
+              <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
                 {" "}
                 Learnify{" "}
               </span>
@@ -165,7 +165,7 @@ const SignUpPages = () => {
               </form>
             </div>
           </div>
-          <div className="hidden lg:flex w-full lg:w-1/2 bg-primary-10 items-center justify-center bg-[#5654e88e]">
+          <div className="hidden lg:flex w-full lg:w-1/2 bg-primary-10 items-center justify-center  bg-[#25d563bd]">
             <div className="max-w-md p-8">
               <div className="relative aspect-square max-w-sm mx-auto">
                 <img src={video} alt="" className="w-full h-full" />
