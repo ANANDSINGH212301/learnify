@@ -4,16 +4,16 @@ import bcrypt from "bcryptjs"
 const userSchema = new mongoose.Schema({
     fullname: {
         type: String,
-        require: true,
+        required: true,
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        require: true,
+        required: true,
         minlength: 6
     },
     bio: {
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
     friends: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
+            ref: "User"
         }
     ]
 }, { timestamps: true });
@@ -62,6 +62,6 @@ userSchema.methods.PassAuth = async function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-const user = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
-export default user;
+export default User;

@@ -41,12 +41,16 @@ export const getOutGoingFriendRequestapi = async () => {
     return res.data;
 };
 
-export const getIncommingFriendRequestapi = async () => {
-    const res = await axiosInstance.get("/user/");
+export const getFriendRequestapi = async () => {
+    const res = await axiosInstance.get("/user/friend-requests");
     return res.data;
 };
 
 export const sendFriendRequestapi = async (userId)=> {
-    const res = await axiosInstance.post(`./user/friend-request/${userId}`)
-    res.data;
+    const res = await axiosInstance.post(`/user/friend-request/${userId}`)
+    return res.data;
+}
+export const acceptFriendRequestapi = async (userId)=> {
+    const res = await axiosInstance.put(`/user/friend-request/${userId}/accept`)
+    return res.data;
 }

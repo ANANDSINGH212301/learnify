@@ -10,7 +10,7 @@ export const getRecommendedUsers = async (req, res) => {
         const recommendedUser = await User.find({
             $and: [
                 { _id: { $ne: currentUserId } },
-                { $id: { $nin: currentUser.friends } },
+                { _id: { $nin: currentUser.friends } },
                 { isOnboarded: true }
             ]
         })
@@ -22,10 +22,7 @@ export const getRecommendedUsers = async (req, res) => {
 }
 export const getMyFriends = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id)
-            .select("friends")
-            .populate("friends", "fullname profilepic nativelanguage learninglanguage")
-
+        const user = await User.findById(req.user.id).select("friends").populate("friends", "fullname profilepic nativelanguage learninglanguage")
         res.status(200).json(user.friends)
     } catch (error) {
         console.log("Error occur while getting friends", error);
@@ -35,7 +32,7 @@ export const getMyFriends = async (req, res) => {
 export const sendFriendRequest = async (req, res) => {
     try {
         const myId = req.user.id;
-        const { id: recipientId } = req.perams
+        const { id: recipientId } = req.params
 
         if (myId == recipientId) {
             return res.status(400).json({ message: "you can't send request to yourself" })
@@ -77,14 +74,14 @@ export const acceptFriendRequest = async (req, res) => {
     try {
         const { id: requestId } = req.params;
 
-        const searchRequest = await friendRequest.findById({ requestId })
+        const searchRequest = await friendRequest.findById(requestId)
 
         if (!searchRequest) {
             return res.status(404).send({ message: "Friend Request not found" })
         }
 
         const userId = req.user.id;
-        if (searchRequest.recipient.toString !== userId) {
+        if (searchRequest.recipient.toString() === userId) {
             return res.status(404).send({ message: "Not authoried to accept the request" });
         }
         searchRequest.status = "accepted";
@@ -105,17 +102,17 @@ export const acceptFriendRequest = async (req, res) => {
 }
 export const getFriendRequest = async (req, res) => {
     try {
-        const incomingReq = await friendRequest.find({
-            recipient: req.user.id,
+        const incomingReqs = await friendRequest.find({
+            recipient: req.user._id,
             status: "pending"
         }).populate("sender", "profilepic fullname nativelanguage learninglanguage");
 
-        const acceptedReq = await friendRequest.find({
-            sender: req.user.id,
+        const acceptedReqs = await friendRequest.find({
+            sender: req.user._id,
             status: "accepted"
         }).populate("recipient", "profilepic fullname");
 
-        res.status(200).json({ incomingReq, acceptedReq })
+        res.status(200).json({ incomingReqs, acceptedReqs })
     } catch (error) {
         console.log("Error occur while Getting friend Request", error);
         return res.status(500).json({ message: "Internal Server Error" })
