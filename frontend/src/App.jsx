@@ -17,12 +17,12 @@ function App() {
   const { isLoading, authUser } = useAuthUser();
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
-  const {theme} = useThemestore()            
+  const { theme } = useThemestore();
   if (isLoading) return <PageLoader />;
 
   return (
     <>
-      <div className=" h-screen" data-theme= {theme}>
+      <div className=" h-screen" data-theme={theme}>
         <Routes>
           <Route
             path="/"
@@ -62,7 +62,8 @@ function App() {
           ></Route>
           <Route
             path="/notification"
-             element={isAuthenticated && isOnboarded ? (
+            element={
+              isAuthenticated && isOnboarded ? (
                 <Layout showSlidebar={true}>
                   <NotificationPage />
                 </Layout>
@@ -72,8 +73,16 @@ function App() {
             }
           ></Route>
           <Route
-            path="/chat"
-            element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />}
+            path="/chat/:id"
+            element={
+              isAuthenticated && isOnboarded ? (
+                <Layout showSlidebar={false}>
+                  <ChatPage />
+                </Layout>
+              ) : (
+                <Navigate to={!isAuthenticated ? "/login" : "/onboard"} />
+              )
+            }
           ></Route>
           <Route
             path="/call"

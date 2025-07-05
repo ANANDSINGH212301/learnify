@@ -1,11 +1,12 @@
 import {LANGUAGE_TO_FLAG }from "../constants/index.js";
+import { Link } from "react-router";
 const FriendCard = ({ friend }) => {
   return (
-    <div className="bg-base-200 card hover:shadow-md transition-shadow">
+    <div className="bg-gray-500 card hover:shadow-md transition-shadow m-4">
       <div className="card-body p-4">
         <div className="flex items-center gap-3 mb-4">
           <div className="avatar size-12">
-            <img src={friend.profilpic} alt={friend.fullname} />
+            <img src={friend.profilepic} alt={friend.fullname} />
           </div>
           <h3 className="font-semibold truncate"> {friend.fullname}</h3>
         </div>
@@ -19,7 +20,7 @@ const FriendCard = ({ friend }) => {
             Learning: {friend.learninglanguage}
           </span>
         </div>
-        <Link to={`/user/${friend._id}`} className="btn btn-outline w-full"> Message </Link>
+        <Link to={`/chat/${friend._id}`} className="btn btn-outline w-full"> Message </Link>
       </div>
     </div>
   );

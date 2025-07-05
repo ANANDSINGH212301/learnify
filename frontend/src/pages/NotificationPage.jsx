@@ -62,10 +62,10 @@ const NotificationPage = () => {
                               <h3 className="font-semibold">{request.sender.fullname}</h3>
                               <div className="flex flex-wrap gap-1.5 mt-1">
                                 <span className="badge badge-secondary badge-sm">
-                                  Native: {request.sender.nativeLanguage}
+                                  Native: {request.sender.nativelanguage}
                                 </span>
                                 <span className="badge badge-outline badge-sm">
-                                  Learning: {request.sender.learningLanguage}
+                                  Learning: {request.sender.learninglanguage}
                                 </span>
                               </div>
                             </div>

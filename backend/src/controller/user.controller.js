@@ -73,15 +73,14 @@ export const sendFriendRequest = async (req, res) => {
 export const acceptFriendRequest = async (req, res) => {
     try {
         const { id: requestId } = req.params;
-
         const searchRequest = await friendRequest.findById(requestId)
-
+        
         if (!searchRequest) {
             return res.status(404).send({ message: "Friend Request not found" })
         }
-
+        
         const userId = req.user.id;
-        if (searchRequest.recipient.toString() === userId) {
+        if (!searchRequest.recipient.toString() === userId) {
             return res.status(404).send({ message: "Not authoried to accept the request" });
         }
         searchRequest.status = "accepted";
