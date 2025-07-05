@@ -10,6 +10,7 @@ import OnboardPage from "./pages/OnboardPage";
 import { Toaster } from "react-hot-toast";
 import useAuthUser from "./hooks/useAuthUser.js";
 import PageLoader from "./component/PageLoader.jsx";
+import Layout from "./component/Layout.jsx";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -25,7 +26,9 @@ function App() {
             path="/"
             element={
               isAuthenticated && isOnboarded ? (
-                <HomePage />
+                <Layout showSlidebar={true}>
+                  <HomePage />
+                </Layout>
               ) : (
                 <Navigate to={!isAuthenticated ? "/login" : "/onboard"} />
               )
@@ -33,11 +36,27 @@ function App() {
           ></Route>
           <Route
             path="/signup"
-            element={!isAuthenticated ? <SignUpPages /> : (isOnboarded ? <Navigate to="/"/>: <Navigate to="/onboard" />)}
+            element={
+              !isAuthenticated ? (
+                <SignUpPages />
+              ) : isOnboarded ? (
+                <Navigate to="/" />
+              ) : (
+                <Navigate to="/onboard" />
+              )
+            }
           ></Route>
           <Route
             path="/login"
-            element={!isAuthenticated ? <LoginPage /> : (isOnboarded ? <Navigate to="/"/>: <Navigate to="/onboard" />)}
+            element={
+              !isAuthenticated ? (
+                <LoginPage />
+              ) : isOnboarded ? (
+                <Navigate to="/" />
+              ) : (
+                <Navigate to="/onboard" />
+              )
+            }
           ></Route>
           <Route
             path="/notification"
@@ -56,7 +75,15 @@ function App() {
           <Route
             path="/onboard"
             element={
-              isAuthenticated ? (isOnboarded ? <Navigate to={"/"}/> : <OnboardPage />) : <Navigate to="/login" />
+              isAuthenticated ? (
+                isOnboarded ? (
+                  <Navigate to={"/"} />
+                ) : (
+                  <OnboardPage />
+                )
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           ></Route>
         </Routes>

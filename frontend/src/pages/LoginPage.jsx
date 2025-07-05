@@ -14,10 +14,7 @@ const LoginPage = () => {
 
   const queryClient = useQueryClient();
 
-  const {
-    mutate: loginMutation,
-    isPending,
-  } = useMutation({
+  const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: loginapi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
