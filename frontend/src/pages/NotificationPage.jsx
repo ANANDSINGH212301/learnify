@@ -101,8 +101,8 @@ const NotificationPage = () => {
                         <div className="flex items-start gap-3">
                           <div className="avatar mt-1 size-10 rounded-full">
                             <img
-                              src={notification.recipient.profilePic}
-                              alt={notification.recipient.fullName}
+                              src={notification.recipient.profilepic}
+                              alt={notification.recipient.fullname}
                             />
                           </div>
                           <div className="flex-1">
