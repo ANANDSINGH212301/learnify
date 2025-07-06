@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { MapPinIcon, UserIcon, UserPlusIcon, CheckCircleIcon } from "lucide-react";
+import {
+  MapPinIcon,
+  UserIcon,
+  UserPlusIcon,
+  CheckCircleIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
@@ -9,6 +14,7 @@ import { Capitialize } from "../lib/utils.js";
 import {
   getOutGoingFriendRequestapi,
   getrecommendedUsersapi,
+  getFriendsapi,
   sendFriendRequestapi,
 } from "../lib/api.js";
 
@@ -19,6 +25,10 @@ const HomePage = () => {
   const { data: recommendUsers = [], isLoading: loadingUsers } = useQuery({
     queryKey: ["users"],
     queryFn: getrecommendedUsersapi,
+  });
+  const { data: friends = [], isLoading: loadingFriends } = useQuery({
+    queryKey: ["friends"],
+    queryFn: getFriendsapi,
   });
   const { data: outgoingFriendreqs } = useQuery({
     queryKey: ["outgoingFriendReqs"],
@@ -50,8 +60,39 @@ const HomePage = () => {
       <div className="p-4 sm:p-6 lg:p-8 bg-base-100">
         <div className="container mx-auto space-y-5">
           <div className="mb-10">
-            <p className="font-semibold text-2xl">Hello, Welcome to Learnify !!</p>
+            <p className="font-semibold text-2xl">
+              Hello, Welcome to Learnify !!
+            </p>
           </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              {" "}
+              Your Friends
+            </h2>
+            <Link className="btn btn-primary btn-sm" to="/notification">
+              <UserIcon className="mr-2 size-4" />
+              Friend Requests
+            </Link>
+          </div>
+          {loadingFriends ? (
+            <div className="flex justify-center py-12">
+              <span className="loading loading-spinner loading-lg" />
+            </div>
+          ) : (
+            <div>
+              {friends.length === 0 ? (
+                <div className="flex flex-col items-center gap-2 py-12 bg-base-200">
+                  <p className="text-center">You don't have any friends yet</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl-grid-cols-4 gap-4 bg-base-200">
+                  {friends.map((friend) => (
+                    <FriendCard key={friend._id} friend={friend} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
           <section>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-3">
               <div>
@@ -93,9 +134,7 @@ const HomePage = () => {
                             {user.location && (
                               <div className=" flex flex-center justify-center text-xs opacity-70 mt-1.5">
                                 <MapPinIcon />
-                                <span className="mt-0.5">
-                                {user.location}
-                                </span>
+                                <span className="mt-0.5">{user.location}</span>
                               </div>
                             )}
                           </div>
@@ -146,5 +185,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-
