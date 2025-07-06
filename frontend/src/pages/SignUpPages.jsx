@@ -165,7 +165,7 @@ const SignUpPages = () => {
               </form>
             </div>
           </div>
-          <div className="hidden lg:flex w-full lg:w-1/2 bg-primary-10 items-center justify-center  bg-[#25d563bd]">
+          <div className="hidden lg:flex w-full lg:w-1/2 bg-primary-10 items-center justify-center">
             <div className="max-w-md p-8">
               <div className="relative aspect-square max-w-sm mx-auto">
                 <img src={video} alt="" className="w-full h-full" />

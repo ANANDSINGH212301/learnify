@@ -31,7 +31,7 @@ const ChatPage = () => {
 
   const { authUser } = useAuthUser();
 
-  const { data: tokenData, isLoading } = useQuery({
+  const { data: tokenData} = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamTokenapi,
     enabled: !!authUser,

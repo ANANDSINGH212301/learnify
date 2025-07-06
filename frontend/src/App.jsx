@@ -12,6 +12,8 @@ import useAuthUser from "./hooks/useAuthUser.js";
 import PageLoader from "./component/PageLoader.jsx";
 import Layout from "./component/Layout.jsx";
 import { useThemestore } from "./store/useThemeStore.js";
+import FriendCard from "./component/FriendCard.jsx";
+import Friends from "./component/Friends.jsx";
 
 function App() {
   const { isLoading, authUser } = useAuthUser();
@@ -73,6 +75,18 @@ function App() {
             }
           ></Route>
           <Route
+            path="/friend"
+            element={
+              isAuthenticated && isOnboarded ? (
+                <Layout showSlidebar={true}>
+                  <Friends />
+                </Layout>
+              ) : (
+                <Navigate to={!isAuthenticated ? "/login" : "/onboard"} />
+              )
+            }
+          ></Route>
+          <Route
             path="/chat/:id"
             element={
               isAuthenticated && isOnboarded ? (
@@ -85,8 +99,16 @@ function App() {
             }
           ></Route>
           <Route
-            path="/call"
-            element={isAuthenticated ? <CallPage /> : <Navigate to="/login" />}
+            path="/call/:id"
+            element={
+              isAuthenticated && isOnboarded ? (
+                <CallPage />
+              ) : !isAuthenticated ? (
+                "/login"
+              ) : (
+                "/onboard"
+              )
+            }
           ></Route>
           <Route
             path="/onboard"

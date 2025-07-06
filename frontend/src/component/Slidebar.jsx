@@ -27,9 +27,9 @@ const Slidebar = () => {
           <span>Home</span>
         </Link>
         <Link
-          to={"/friends"}
+          to={"/friend"}
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case rounded-full hover:bg-gray-700 ${
-            currentPath === "/friends" ? "bg-gray-700" : ""
+            currentPath === "/friend" ? "bg-gray-700" : ""
           }`}
         >
           <User2Icon className="size-5 text-base-content opacity-70" />

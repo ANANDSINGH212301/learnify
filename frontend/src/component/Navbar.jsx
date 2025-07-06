@@ -47,7 +47,7 @@ const Navbar = () => {
             <div className="flex items-center justify-end w-full">
               <div className="flex items-center gap-3 sm-gap-4">
                 <Link
-                  to={"/notifications"}
+                  to={"/notification"}
                   className={`btn btn-ghost btn-circle`}
                 >
                   <BellIcon className="size-5 text-base-content opacity-70" />
