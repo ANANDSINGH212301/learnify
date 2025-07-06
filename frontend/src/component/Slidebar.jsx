@@ -38,7 +38,7 @@ const Slidebar = () => {
         <Link
           to={"/notification"}
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case rounded-full hover:bg-gray-700 ${
-            currentPath === "/notification" ? "bg--gray-700" : ""
+            currentPath === "/notification" ? "bg-gray-700" : ""
           }`}
         >
           <BellIcon className="size-5 text-base-content opacity-70" />
